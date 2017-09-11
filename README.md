@@ -1,6 +1,8 @@
 # .spacemacs.d
 
-My spacemacs configuration.
+![](http://www.reactiongifs.us/wp-content/uploads/2013/03/mind_blown_nph.gif)
+
+My [spacemacs](https://github.com/syl20bnr/spacemacs) configuration.
 
 ### Notes
 
