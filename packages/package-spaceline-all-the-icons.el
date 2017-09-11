@@ -25,4 +25,4 @@
 ;;             (spaceline-toggle-all-the-icons-battery-status-off)
 ;;             (spaceline-toggle-hud-off)))
 
-;; (provide 'package-spaceline-all-the-icons)
+(provide 'package-spaceline-all-the-icons)
