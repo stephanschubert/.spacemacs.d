@@ -61,7 +61,9 @@ This function should only modify configuration layer settings."
 		  		ivy-extra-directories nil)
 
      nlinum
-     markdown
+     (markdown :variables
+               ;; Install executable for github-flavored markdown via `npm -g i vmd'
+               markdown-live-preview-engine 'vmd)
      ;; org
      osx
 
