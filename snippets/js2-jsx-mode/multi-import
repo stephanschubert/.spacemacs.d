@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: multi-import
+# key: mimp
+# --
+import { $1 } from '$2'

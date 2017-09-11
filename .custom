@@ -1,0 +1,43 @@
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("4182c491b5cc235ba5f27d3c1804fc9f11f51bf56fb6d961f94788be034179ad" "b378249b7f647796b186c70f61eaaee7aa1bd123681d5ca8c44d3ca8875e1b70" "12e2aee98f651031d10fd58af76250fa8cab6f28b3e88f03b88b7524c9278549" "c50a672a129e71b9362b209c63d4e203ccc88a388c370411535b8b54ecc878bc" "19f68ed86c05e6810925c2985f873f7ad728079ade01f5844d7d61e82dcbae4a" "5310b88333fc64c0cb34a27f42fa55ce371438a55f02ac7a4b93519d148bd03d" "6b1e6953a08acf12843973ec25d69dbfa1a53d869f649dc991a56fbdf0d7eb9e" "34c6da8c18dcbe10d34e3cf0ceab80ed016552cb40cee1b906a42fd53342aba3" "ef479623c75026d8ba1de98a8cb74198f6f3eedc6fca509990ac2559ba830675" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(exec-path-from-shell-arguments (quote ("-l")))
+ '(package-selected-packages
+   (quote
+    (json-snatcher json-reformat parent-mode pos-tip flx anzu goto-chg pkg-info epl popup undo-tree tldr wand impatient-mode htmlize spaceline-all-the-icons pretty-mode evil-snipe symon string-inflection sayid password-generator ivy-purpose window-purpose imenu-list editorconfig browse-at-remote solaire-mode ghub+ apiwrap ghub diminish s all-the-icons-ivy memoize ivy-rich rjsx-mode eslintd-fix add-node-modules-path key-chord helm-css-scss flyspell-correct-helm engine-mode winum fuzzy f xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help clojure-snippets clj-refactor inflections edn paredit peg cider-eval-sexp-fu cider seq queue clojure-mode powerline spinner multiple-cursors helm helm-core bind-key avy yasnippet projectile iedit smartparens bind-map highlight evil hydra skewer-mode js2-mode simple-httpd evil-lion magithub async flycheck-elm elm-mode haml-mode fringe-helper git-gutter+ git-gutter flyspell-correct flycheck counsel swiper ivy markdown-mode org helm-gitignore gh marshal logito pcache ht magit magit-popup git-commit with-editor dash packed helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag define-word ace-jump-helm-line company-quickhelp company-web web-completion-data company-tern dash-functional company-statistics company auto-yasnippet ac-ispell auto-complete nlinum linum-relative google-this doom-themes all-the-icons font-lock+ tern yaml-mode ws-butler window-numbering which-key wgrep web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spacemacs-theme spaceline smex smeargle slim-mode scss-mode sass-mode reveal-in-osx-finder restart-emacs request rainbow-mode rainbow-identifiers rainbow-delimiters quelpa pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file nlinum-relative neotree move-text mmm-mode markdown-toc magit-gitflow magit-gh-pulls macrostep lorem-ipsum livid-mode link-hint less-css-mode launchctl json-mode js2-refactor js-doc ivy-hydra info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md flyspell-correct-ivy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav dumb-jump diff-hl counsel-projectile column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link)))
+ '(safe-local-variable-values
+   (quote
+    ((sgml-attribute-offset . 2)
+     (web-mode-css-indent-offset . 2)
+     (web-mode-markup-indent-offset . 4)
+     (web-mode-attr-indent-offset . 4)
+     (web-mode-code-indent-offset . 4)
+     (web-mode-css-indent-offset . 4)
+     (js-indent-level . 4)
+     (js2-basic-offset . 4)
+     (js2-basic-offset 4)
+     (js-indent-level 4)
+     (tab-width 4)
+     (eval progn
+           (add-to-list
+            (quote exec-path)
+            (concat
+             (locate-dominating-file default-directory ".dir-locals.el")
+             "node_modules/.bin/")))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(magithub-label-face ((t nil)))
+ '(nlinum-current-line ((t (:foreground "#98be65" :weight normal))))
+ '(rjsx-attr ((t (:inherit font-lock-variable-name-face :foreground "#ECBE7B"))))
+ '(rjsx-tag ((t (:foreground "cyan")))))
