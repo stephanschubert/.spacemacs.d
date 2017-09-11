@@ -874,6 +874,7 @@ before packages are loaded."
   (global-company-mode t)
 
   (progn
+    (require 'git-gutter-fringe+)
     ;; Git Gutter
     (set-face-attribute
      'git-gutter+-added nil :foreground "#b6ff00" :weight 'normal)
