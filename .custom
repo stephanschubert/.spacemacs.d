@@ -37,7 +37,13 @@
  ;; If there is more than one, they won't work right.
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(font-lock-doc-face ((t (:inherit font-lock-comment-face :foreground "#5B6268"))))
+ '(font-lock-function-name-face ((t (:inherit nil :foreground "#c678dd"))))
+ '(font-lock-keyword-face ((t (:inherit nil :foreground "#51afef"))))
+ '(font-lock-type-face ((t (:inherit nil :foreground "#ECBE7B"))))
+ '(link ((t (:foreground "#5B6268" :underline t :weight normal))))
  '(magithub-label-face ((t nil)))
  '(nlinum-current-line ((t (:foreground "#98be65" :weight normal))))
+ '(persp-face-lighter-nil-persp ((t (:inherit nil))))
  '(rjsx-attr ((t (:inherit font-lock-variable-name-face :foreground "#ECBE7B"))))
  '(rjsx-tag ((t (:foreground "cyan")))))
