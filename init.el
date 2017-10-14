@@ -689,11 +689,22 @@ before packages are loaded."
       ("->" . ?→)
       ("identical?" . ?≡)))
 
+  (defvar jazen/js--prettify-symbols-alist
+    '(("function" . ?ƒ)
+      ("!=" . ?≠)
+      ("!==" . ?≢)
+      ("===" . ?≡)))
+
   (defvar jazen/lisp--prettify-symbols-alist
     '(("compose" . ?∘)
       ("curry" . ?»)
       ("rcurry" . ?«)
       ("eq" . ?=)))
+
+  (eval-after-load 'js2-mode
+    '(setq js--prettify-symbols-alist
+           (append jazen/js--prettify-symbols-alist
+                   js--prettify-symbols-alist)))
 
   (eval-after-load 'clojure-mode
     '(setq clojure--prettify-symbols-alist
