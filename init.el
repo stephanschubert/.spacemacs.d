@@ -479,10 +479,11 @@ before packages are loaded."
   (when (spacemacs/system-is-mac)
     (setq-default mac-function-modifier 'hyper           ;; Use [fn] as Hyper (`H' prefix)
                   mac-control-modifier 'control
-                  mac-option-modifier 'meta
                   mac-command-modifier 'super            ;; Use `s' prefix
                   mac-right-command-modifier 'super
-                  mac-right-option-modifier 'none        ;; Unbind right [alt] for accented input
+
+                  mac-option-modifier 'none         ;; Unbind left [alt] for accented input
+                  mac-right-option-modifier 'meta
                   ;; mac-right-control-modifier 'control ;; No right control here
                   ))
 
