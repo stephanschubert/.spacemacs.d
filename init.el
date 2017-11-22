@@ -500,6 +500,9 @@ before packages are loaded."
   ;; Use `v' in visual state to expand the region
   (define-key evil-visual-state-map "v" 'er/expand-region)
 
+  ;; (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
+  ;; (define-key ivy-minibuffer-map (kbd "C-w") 'evil-delete-backward-word)
+
   ;; Powerline: current date/time
   (setq-default display-time-string-forms
                 '((substring year -4)
