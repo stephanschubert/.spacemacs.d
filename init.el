@@ -629,6 +629,16 @@ before packages are loaded."
     :defer t)
 
   (setq-default
+   counsel-ag-base-command
+   (concat "ag "
+           "--noheading "
+           "--nogroup "
+           "--nocolor "
+           "--skip-vcs-ignores "
+           "--smart-case "
+           "--follow " ; follow symlinks
+           "%S"))
+
   (setq-default
    x-stretch-cursor t
    find-file-visit-truename t
