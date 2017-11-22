@@ -629,6 +629,9 @@ before packages are loaded."
     :defer t)
 
   (setq-default
+  (setq-default
+   x-stretch-cursor t
+   find-file-visit-truename t
    ping-program-options '("-c" "4")
 
    avy-timeout-seconds 0.35
