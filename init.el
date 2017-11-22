@@ -471,8 +471,9 @@ before packages are loaded."
   ;; and simply let flx (did you install it?) sort the matches in a nice way:
   (setq-default
 	 ivy-re-builders-alist
-	 '((swiper . ivy--regex-plus)  ;; Restore old behaviour for swiper
-		 (t . ivy--regex-fuzzy))
+	 '((swiper . ivy--regex-plus)   ;; Restore old behaviour for swiper
+		 (t      . ivy--regex-fuzzy))
+
 	 ivy-initial-inputs-alist nil
 	 )
 
