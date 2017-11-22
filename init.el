@@ -716,6 +716,7 @@ before packages are loaded."
   (defvar jazen/lisp--prettify-symbols-alist
     '(("compose" . ?∘)
       ("curry" . ?»)
+      ("defun" . ?ƒ)
       ("rcurry" . ?«)
       ("eq" . ?=)))
 
