@@ -968,6 +968,23 @@ before packages are loaded."
   ;; (define-fringe-bitmap 'git-gutter-fr:deleted
   ;;   [0 0 0 0 0 0 0 0 0 0 0 0 0 128 192 224 240 248]
   ;;   nil nil 'center)
+
+  ;; Magit Popup extensions; taken from
+  ;; https://github.com/magit/magit/wiki/Additional-proposed-infix-arguments-and-suffix-commands
+
+  (magit-define-popup-switch 'magit-log-popup
+    ?m "Omit merge commits" "--no-merges")
+
+  (autoload 'org-read-date "org")
+
+  (defun magit-org-read-date (prompt &optional _default)
+    (org-read-date 'with-time nil nil prompt))
+
+  (magit-define-popup-option 'magit-log-popup
+    ?s "Since date" "--since=" #'magit-org-read-date)
+
+  (magit-define-popup-option 'magit-log-popup
+    ?u "Until date" "--until=" #'magit-org-read-date)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
