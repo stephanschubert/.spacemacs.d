@@ -985,6 +985,17 @@ before packages are loaded."
 
   (magit-define-popup-option 'magit-log-popup
     ?u "Until date" "--until=" #'magit-org-read-date)
+  (use-package fancy-narrow
+    :ensure t
+    ;; :quelpa (fancy-narrow :repo Malabarba/fancy-narrow :fetcher github)
+    :diminish
+    :config
+    (progn
+      (fancy-narrow-mode)))
+
+  (define-keys evil-normal-state-map
+    '(("SPC n r" fancy-narrow-to-region)
+      ("SPC n w" fancy-widen)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
