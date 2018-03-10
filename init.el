@@ -123,10 +123,12 @@ This function should only modify configuration layer settings."
    ;; Example:
    ;; dotspacemacs-additional-packages
    ;; '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
-   dotspacemacs-additional-packages '(solaire-mode
+   dotspacemacs-additional-packages '(atomic-chrome
+                                      solaire-mode
                                       define-word
                                       doom-themes
                                       evil-lion
+                                      fancy-narrow
                                       fringe-helper
                                       google-this
                                       graphql-mode
