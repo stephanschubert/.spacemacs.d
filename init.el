@@ -1007,6 +1007,7 @@ before packages are loaded."
 
   ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
   (defun jazen/use-eslint-from-node-modules ()
+    (interactive)
     (let ((root (locate-dominating-file
                  (or (buffer-file-name) default-directory)
                  (lambda (dir)
