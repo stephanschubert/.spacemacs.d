@@ -609,6 +609,20 @@ before packages are loaded."
 	;; Powerline: battery life
 	;; (fancy-battery-mode t)
 
+  ;; via http://cestlaz.github.io/posts/using-emacs-40-atomic-chrome
+  (use-package atomic-chrome
+    :ensure t
+    :init
+    (progn
+      (atomic-chrome-start-server))
+    :config
+    (progn
+      (setq atomic-chrome-buffer-open-style 'frame)
+      (setq atomic-chrome-url-major-mode-alist
+            '(("github\\.com" . gfm-mode)))
+      (add-hook 'atomic-chrome-edit-done-hook
+                (lambda () (shell-command "open -a \"Google Chrome\"")))))
+
   (use-package compile
     :defer t
     :init
