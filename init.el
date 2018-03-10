@@ -78,8 +78,9 @@ This function should only modify configuration layer settings."
      ;; react
 
      (shell :variables
-            shell-default-shell 'multi-term
+            shell-default-shell 'eshell
             shell-default-height 30
+            shell-enable-smart-eshell t
             shell-default-position 'bottom
             shell-default-full-span nil)
 
