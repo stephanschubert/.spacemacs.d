@@ -43,7 +43,7 @@ This function should only modify configuration layer settings."
 
      ;; Required for less-css-mode
      html
-
+     ;; chrome ;; 2018-02-01 — Doesn't work here.
      (clojure :variables
               clojure-enable-fancify-symbols t)
      (colors :variables
