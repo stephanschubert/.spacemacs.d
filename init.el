@@ -903,7 +903,8 @@ before packages are loaded."
   (define-keys global-map
     '(("C-c C-." dumb-jump-go)
       ("C-c C-," dumb-jump-back)
-      ("C-s" counsel-grep-or-swiper)))
+      ("C-s" counsel-grep-or-swiper)
+      ("M-g M-g" hydra-git-gutter+/body)))
 
   ;; No idea what goes wrong but I need to explicitly bind the keys.
   (define-keys yas-minor-mode-map
@@ -1101,6 +1102,36 @@ before packages are loaded."
 
   (magit-define-popup-option 'magit-log-popup
     ?u "Until date" "--until=" #'magit-org-read-date)
+
+  (defhydra hydra-git-gutter+
+    (:body-pre (git-gutter+-mode 1) :hint nil)
+    "
+Git gutter:
+
+  _j_: next hunk        _s_tage hunk     _q_uit
+  _k_: previous hunk    _r_evert hunk    _Q_uit and deactivate git-gutter+
+  ^ ^                   _p_opup hunk
+  _h_: first hunk
+  _l_: last hunk
+"
+    ("j" git-gutter+-next-hunk)
+    ("k" git-gutter+-previous-hunk)
+    ("h" (progn (goto-char (point-min))
+                (git-gutter+-next-hunk 1)))
+    ("l" (progn (goto-char (point-min))
+                (git-gutter+-previous-hunk 1)))
+    ("s" git-gutter+-stage-hunks)
+    ("r" git-gutter+-revert-hunk)
+    ("p" git-gutter+-popup-hunk)
+    ;; ("R" git-gutter+-set-start-revision)
+    ("q" nil :color blue)
+    ("Q" (progn (git-gutter+-mode -1)
+                ;; git-gutter+-fringe doesn't seem to
+                ;; clear the markup right away
+                (sit-for 0.1)
+                (git-gutter+-clear))
+     :color blue))
+
   (use-package fancy-narrow
     :ensure t
     ;; :quelpa (fancy-narrow :repo Malabarba/fancy-narrow :fetcher github)
