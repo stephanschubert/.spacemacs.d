@@ -829,6 +829,7 @@ before packages are loaded."
       ("curry" . ?»)
       ("defun" . ?ƒ)
       ("rcurry" . ?«)
+      ("."      . ?•)
       ("eq" . ?=)))
 
   (eval-after-load 'js2-mode
