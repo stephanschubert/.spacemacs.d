@@ -533,6 +533,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (setq epa-pinentry-mode 'loopback)
+  (setq epa-armor t)
+  ;; (auth-source-search :host "api.github.com" :user "jazen")
+
   ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
   (setq auto-window-vscroll nil)
 
