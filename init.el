@@ -918,8 +918,8 @@ before packages are loaded."
 
   ;; (define-key evil-normal-state-map (kbd "ö SPC") 'evil-unimpaired/insert-space-above)
   ;; (define-key evil-normal-state-map (kbd "Ö SPC") 'evil-unimpaired/insert-space-below)
-  (define-key evil-normal-state-map (kbd "ö P") 'evil-unimpaired/paste-above)
-  (define-key evil-normal-state-map (kbd "ö p") 'evil-unimpaired/paste-below)
+  ;; (define-key evil-normal-state-map (kbd "ö P") 'evil-unimpaired/paste-above)
+  ;; (define-key evil-normal-state-map (kbd "ö p") 'evil-unimpaired/paste-below)
 
   ;; Bury buffers instead of killing them by default
   (spacemacs/set-leader-keys "bd" 'bury-buffer)
