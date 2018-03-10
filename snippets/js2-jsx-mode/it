@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : it
+# --
+it(\`should ${1:description}\`, () => {
+  expect(${2:result}).to${3:$$(yas-choose-value '("MatchSnapshot" "Equal" "Throw"))}($0)
+})

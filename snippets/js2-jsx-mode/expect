@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : exp
+# --
+expect(${1:result}).to${2:$$(yas-choose-value '("MatchSnapshot" "Equal" "Throw"))}($0)
