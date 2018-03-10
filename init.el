@@ -1019,6 +1019,13 @@ before packages are loaded."
 
   ;; (add-hook 'flycheck-mode-hook #'jazen/use-eslint-from-node-modules)
   (add-hook 'prog-mode-hook 'rainbow-mode)
+
+  ;; https://github.com/syl20bnr/spacemacs/issues/10315#issuecomment-365688761
+  (spacemacs|use-package-add-hook company
+    :post-config
+    (define-key company-active-map (kbd "RET") nil)
+    (define-key company-active-map [return] nil))
+
   (global-company-mode t)
 
   (progn
