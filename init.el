@@ -129,6 +129,7 @@ This function should only modify configuration layer settings."
                                       evil-lion
                                       fringe-helper
                                       google-this
+                                      graphql-mode
                                       key-chord
                                       ivy-rich
                                       tldr
