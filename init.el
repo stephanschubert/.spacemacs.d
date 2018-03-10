@@ -732,6 +732,13 @@ before packages are loaded."
     :ensure t
     :defer t)
 
+  ;; Use `rg' as much as possible and avoid hanging emacs when searching
+  ;; files with very long lines.
+  ;; https://oremacs.com/2018/03/05/grep-exclude/
+  (setq-default
+   counsel-git-cmd "rg --files"
+   counsel-rg-base-command "rg -S -M 120 --no-heading --line-number --color never %s .")
+
   (setq-default
    counsel-ag-base-command
    (concat "ag "
