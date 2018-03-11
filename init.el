@@ -1024,6 +1024,10 @@ before packages are loaded."
   ;; (add-hook 'flycheck-mode-hook #'jazen/use-eslint-from-node-modules)
   (add-hook 'prog-mode-hook 'rainbow-mode)
 
+  ;; Setup CLI tool `npm i -g markdownlint-cli` first
+  (add-to-list 'flycheck-global-modes 'markdown-mode)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+
   ;; https://github.com/syl20bnr/spacemacs/issues/10315#issuecomment-365688761
   (spacemacs|use-package-add-hook company
     :post-config
