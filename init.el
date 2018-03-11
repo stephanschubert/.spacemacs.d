@@ -90,7 +90,9 @@ This function should only modify configuration layer settings."
                      spell-checking-enable-by-default nil
                      ;; Tries to detect the current language from the buffer
                      ;; content, and activate the corresponding dictionary.
-                     spell-checking-enable-auto-dictionary t)
+                     spell-checking-enable-auto-dictionary t
+                     ;; Enable auto-completion popup when the point is idle on a misspelled word
+                     enable-flyspell-auto-completion t)
 
      search-engine
      spacemacs-layouts
