@@ -1128,7 +1128,7 @@ Git gutter:
   _k_: previous hunk    _r_evert hunk    _Q_uit and deactivate git-gutter+
   ^ ^                   _p_opup hunk
   _h_: first hunk
-  _l_: last hunk
+  _l_: last hunk        _c_ommit (magit)
 "
     ("j" git-gutter+-next-hunk)
     ("k" git-gutter+-previous-hunk)
@@ -1139,6 +1139,7 @@ Git gutter:
     ("s" git-gutter+-stage-hunks)
     ("r" git-gutter+-revert-hunk)
     ("p" git-gutter+-popup-hunk)
+    ("c" magit-commit)
     ;; ("R" git-gutter+-set-start-revision)
     ("q" nil :color blue)
     ("Q" (progn (git-gutter+-mode -1)
