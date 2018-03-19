@@ -1028,6 +1028,9 @@ before packages are loaded."
   (add-to-list 'flycheck-global-modes 'markdown-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode)
 
+  (setq-default flycheck-stylelintrc ".stylelintrc")
+  (add-to-list 'flycheck-global-modes 'css-mode)
+
   ;; https://github.com/syl20bnr/spacemacs/issues/10315#issuecomment-365688761
   (spacemacs|use-package-add-hook company
     :post-config
