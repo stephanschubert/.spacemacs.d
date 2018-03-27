@@ -95,7 +95,8 @@ This function should only modify configuration layer settings."
                      enable-flyspell-auto-completion t)
 
      search-engine
-     spacemacs-layouts
+     (spacemacs-layouts :variables
+                        spacemacs-layouts-directory "~/.spacemacs.d/")
      syntax-checking
 
      ;; https://github.com/syl20bnr/spacemacs/issues/4285#issuecomment-234579627
@@ -759,7 +760,6 @@ before packages are loaded."
            "%S"))
 
   (setq-default
-   spacemacs-layouts-directory "~/.spacemacs.d"
    x-stretch-cursor t
    find-file-visit-truename t
    ping-program-options '("-c" "4")
