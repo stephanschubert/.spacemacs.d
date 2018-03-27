@@ -759,6 +759,7 @@ before packages are loaded."
            "%S"))
 
   (setq-default
+   spacemacs-layouts-directory "~/.spacemacs.d"
    x-stretch-cursor t
    find-file-visit-truename t
    ping-program-options '("-c" "4")
