@@ -915,6 +915,11 @@ before packages are loaded."
   (define-keys yas-minor-mode-map
     '(("<tab>" yas-expand)))
 
+
+  (define-keys emmet-mode-keymap
+    '(("C-j" electric-newline-and-maybe-indent)
+      ("C-l" emmet-expand-line)))
+
   (define-keys evil-normal-state-map
     '(("j" evil-next-visual-line)
       ("k" evil-previous-visual-line)
