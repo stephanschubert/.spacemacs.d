@@ -810,6 +810,13 @@ before packages are loaded."
               (make-local-variable 'js-indent-level)
               (setq js-indent-level 2)))
 
+  ;; http://emacsredux.com/blog/2013/04/18/evaluate-emacs-lisp-in-the-minibuffer/
+  (defun conditionally-enable-paredit-mode ()
+    "Enable `paredit-mode' in the minibuffer, during `eval-expression'."
+    (if (eq this-command 'eval-expression)
+        (paredit-mode 1)))
+
+  (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
   ;; (midnight-mode)
 
   ;; https://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard/15054
