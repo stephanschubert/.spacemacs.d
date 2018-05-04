@@ -70,7 +70,10 @@ This function should only modify configuration layer settings."
                markdown-live-preview-engine 'vmd)
      ;; org
      osx
-
+     prose
+     (languagetool :variables
+                   langtool-default-language "en-US"
+                   langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.1/libexec/languagetool-commandline.jar")
      ;; 2017-07-05 - Deactivated in favor of `rjsx-mode' from the `aj-javascript' layer below.
      ;; (javascript :variables
      ;;             js2-mode-show-strict-warnings nil
@@ -132,6 +135,7 @@ This function should only modify configuration layer settings."
                                       doom-themes
                                       evil-lion
                                       fancy-narrow
+                                      flycheck-vale
                                       fringe-helper
                                       google-this
                                       graphql-mode
