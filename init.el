@@ -916,9 +916,10 @@ before packages are loaded."
     '(("<tab>" yas-expand)))
 
   ;; Re-bind so these keys behave like everywhere else
-  (define-keys emmet-mode-keymap
-    '(("C-j" electric-newline-and-maybe-indent)
-      ("C-l" emmet-expand-line)))
+  (eval-after-load 'emmet-mode
+    '(define-keys emmet-mode-keymap
+       '(("C-j" electric-newline-and-maybe-indent)
+         ("C-l" emmet-expand-line))))
 
   (define-keys evil-normal-state-map
     '(("j" evil-next-visual-line)
