@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: amazon
+# key: ama
+# --
+<amazon asin="${1:ASIN}" image="${2:$$(yas-choose-value '("yes" "no"))}">${0}</amazon>
