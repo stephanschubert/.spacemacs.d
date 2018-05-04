@@ -1207,6 +1207,12 @@ Git gutter:
   (define-keys evil-normal-state-map
     '(("SPC n r" fancy-narrow-to-region)
       ("SPC n w" fancy-widen)))
+
+  (add-hook 'markdown-mode-hook
+            '(lambda ()
+               (auto-complete-mode t)
+               (local-unset-key [tab])
+               (setq-local yas-fallback-behavior '(apply auto-complete))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
