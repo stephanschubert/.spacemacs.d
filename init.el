@@ -805,6 +805,11 @@ before packages are loaded."
 
    prettify-symbols-unprettify-at-point 'right-edge)
 
+  (add-hook 'json-mode-hook
+            (lambda ()
+              (make-local-variable 'js-indent-level)
+              (setq js-indent-level 2)))
+
   ;; (midnight-mode)
 
   ;; https://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard/15054
