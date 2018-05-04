@@ -1048,6 +1048,7 @@ before packages are loaded."
   (add-hook 'prog-mode-hook 'rainbow-mode)
 
   ;; Setup CLI tool `npm i -g markdownlint-cli` first
+  (setq-default flycheck-markdown-markdownlint-cli-config ".markdownlintrc")
   (add-to-list 'flycheck-global-modes 'markdown-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode)
 
