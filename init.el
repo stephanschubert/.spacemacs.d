@@ -871,7 +871,7 @@ before packages are loaded."
   (eval-after-load 'lisp-mode
     '(setq lisp--prettify-symbols-alist
            (append jazen/lisp--prettify-symbols-alist
-                   lisp-prettify-symbols-alist)))
+                   lisp--prettify-symbols-alist)))
 
   (global-prettify-symbols-mode 1)
 
