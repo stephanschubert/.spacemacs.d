@@ -925,13 +925,11 @@ before packages are loaded."
     '(("j" evil-next-visual-line)
       ("k" evil-previous-visual-line)
       ("+" evil-numbers/inc-at-pt)
-      ("-" evil-numbers/dec-at-pt)))
-
-  (define-key evil-normal-state-map (kbd "ö SPC") 'evil-unimpaired/insert-space-above)
-  (define-key evil-normal-state-map (kbd "Ö SPC") 'evil-unimpaired/insert-space-below)
-
-  (define-key evil-normal-state-map (kbd "ö P") 'evil-unimpaired/paste-above)
-  (define-key evil-normal-state-map (kbd "ö p") 'evil-unimpaired/paste-below)
+      ("-" evil-numbers/dec-at-pt)
+      ("ö SPC" evil-unimpaired/insert-space-above)
+      ("Ö SPC" evil-unimpaired/insert-space-below)
+      ("ö P" evil-unimpaired/paste-above)
+      ("ö p" evil-unimpaired/paste-below)))
 
   ;; Bury buffers instead of killing them by default
   (spacemacs/set-leader-keys "bd" 'bury-buffer)
