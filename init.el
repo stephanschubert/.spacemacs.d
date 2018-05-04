@@ -823,6 +823,11 @@ before packages are loaded."
   ;; (add-hook 'evil-insert-state-entry-hook 'aggressive-indent-mode)
   ;; (add-hook 'evil-insert-state-exit-hook 'disable-aggressive-indent)
 
+  ;; Disable syntax checking while in insert mode --
+  ;; https://github.com/syl20bnr/spacemacs/issues/9708#issuecomment-334843482
+  (add-hook 'evil-insert-state-entry-hook (lambda () (spacemacs/toggle-syntax-checking-off)))
+  (add-hook 'evil-insert-state-exit-hook  (lambda () (spacemacs/toggle-syntax-checking-on)))
+
   (add-hook 'term-mode-hook
             (lambda ()
               (setq term-buffer-maximum-size 10000)))
