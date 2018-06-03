@@ -854,7 +854,7 @@ before packages are loaded."
       ("!==" . ?≢)
       ("===" . ?≡)))
 
-  (defvar jazen/lisp--prettify-symbols-alist
+  (defvar jazen/lisp-prettify-symbols-alist
     '(("compose" . ?∘)
       ("curry" . ?»)
       ("defun" . ?ƒ)
@@ -873,9 +873,9 @@ before packages are loaded."
                    clojure--prettify-symbols-alist)))
 
   (eval-after-load 'lisp-mode
-    '(setq lisp--prettify-symbols-alist
-           (append jazen/lisp--prettify-symbols-alist
-                   lisp--prettify-symbols-alist)))
+    '(setq lisp-prettify-symbols-alist
+           (append jazen/lisp-prettify-symbols-alist
+                   lisp-prettify-symbols-alist)))
 
   (global-prettify-symbols-mode 1)
 
