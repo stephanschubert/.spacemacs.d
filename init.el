@@ -64,7 +64,6 @@ This function should only modify configuration layer settings."
           ;; Hide "./" and "../" in the `counsel-find-file' completion list
 		  		ivy-extra-directories nil)
 
-     nlinum
      (markdown :variables
                ;; Install executable for github-flavored markdown via `npm -g i vmd'
                markdown-live-preview-engine 'vmd)
@@ -772,8 +771,6 @@ before packages are loaded."
    dumb-jump-prefer-searcher 'rg
    evil-escape-unordered-key-sequence t
 
-   nlinum-format "%4d \u2502"
-   nlinum-highlight-current-line t
    ;; git-gutter-fr+-side 'left-fringe
    ;; fringes-outside-margins t
 
