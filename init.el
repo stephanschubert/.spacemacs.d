@@ -931,7 +931,7 @@ before packages are loaded."
 
   ;; No idea what goes wrong but I need to explicitly bind the keys.
   (define-keys yas-minor-mode-map
-    '(("<tab>" yas-expand)))
+    '(("C-l" hippie-expand)))
 
   ;; Re-bind so these keys behave like everywhere else
   (eval-after-load 'emmet-mode
@@ -1062,7 +1062,19 @@ before packages are loaded."
     (define-key company-active-map (kbd "RET") nil)
     (define-key company-active-map [return] nil))
 
-  (global-company-mode t)
+  (global-company-mode)
+
+  ;; https://www.reddit.com/r/emacs/comments/3r9fic/best_practicestip_for_companymode_andor_yasnippet/
+  (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
+
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas)
+            (and (listp backend) (member 'company-yasnippet backend)))
+        backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
   (progn
     (require 'git-gutter-fringe+)

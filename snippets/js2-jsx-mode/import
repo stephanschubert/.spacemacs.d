@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: imp
-# key: imp
+# name: simple import
+# key: simp
 # --
 import $1 from '$2'
