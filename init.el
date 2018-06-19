@@ -73,10 +73,14 @@ This function should only modify configuration layer settings."
      (languagetool :variables
                    langtool-default-language "en-US"
                    langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.1/libexec/languagetool-commandline.jar")
+     (javascript :variables
+                 js2-basic-offset 2
+                 js-indent-level 2
+                 js2-mode-show-strict-warnings nil
+                 js2-mode-show-parse-errors nil
+                 node-add-modules-path t)
      ;; 2017-07-05 - Deactivated in favor of `rjsx-mode' from the `aj-javascript' layer below.
      ;; (javascript :variables
-     ;;             js2-mode-show-strict-warnings nil
-     ;;             js2-mode-show-parse-errors nil)
      ;; react
 
      (shell :variables
@@ -118,9 +122,8 @@ This function should only modify configuration layer settings."
 
                       ;; 2017-07-05 - Deactivated because the location of the tooltip
                       ;; is not reliable when working with multiple displays..?
-                      auto-completion-enable-help-tooltip nil)
+                      auto-completion-enable-help-tooltip nil))
 
-     aj-javascript)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -129,6 +132,7 @@ This function should only modify configuration layer settings."
    ;; dotspacemacs-additional-packages
    ;; '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
    dotspacemacs-additional-packages '(atomic-chrome
+                                      eslintd-fix
                                       solaire-mode
                                       define-word
                                       doom-themes
@@ -782,7 +786,6 @@ before packages are loaded."
 
    indent-tabs-mode nil ;; Indentation can't insert tabs
    tab-width 2
-   js-indent-level 2
 
    history-delete-duplicates t
    scroll-margin 10 ;; Give your cursor some context
@@ -805,11 +808,6 @@ before packages are loaded."
      "*scratch*")
 
    prettify-symbols-unprettify-at-point 'right-edge)
-
-  (add-hook 'json-mode-hook
-            (lambda ()
-              (make-local-variable 'js-indent-level)
-              (setq js-indent-level 2)))
 
   ;; http://emacsredux.com/blog/2013/04/18/evaluate-emacs-lisp-in-the-minibuffer/
   (defun conditionally-enable-paredit-mode ()
@@ -1033,19 +1031,14 @@ before packages are loaded."
 
   (add-hook 'compilation-finish-functions #'jazen/bury-compile-buffer-if-successful)
 
-  ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-  (defun jazen/use-eslint-from-node-modules ()
-    (interactive)
-    (let ((root (locate-dominating-file
-                 (or (buffer-file-name) default-directory)
-                 (lambda (dir)
-                   (let ((eslint (expand-file-name "node_modules/eslint/bin/eslint.js" dir)))
-                     (and eslint (file-executable-p eslint)))))))
-      (when root
-        (let ((eslint (expand-file-name "node_modules/eslint/bin/eslint.js" root)))
-          (setq-local flycheck-javascript-eslint-executable eslint)))))
+  ;; Ensure `eslint_d` is in your `exec-path`: `$ npm install -g eslint_d`
+  (use-package eslintd-fix
+    :defer t
+    :commands eslintd-fix-mode
+    :init
+    (progn
+      (add-hook 'js2-mode-hook #'eslintd-fix-mode t)))
 
-  ;; (add-hook 'flycheck-mode-hook #'jazen/use-eslint-from-node-modules)
   (add-hook 'prog-mode-hook 'rainbow-mode)
 
   ;; Setup CLI tool `npm i -g markdownlint-cli` first
