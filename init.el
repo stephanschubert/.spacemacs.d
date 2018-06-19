@@ -132,29 +132,31 @@ This function should only modify configuration layer settings."
    ;; Example:
    ;; dotspacemacs-additional-packages
    ;; '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
-   dotspacemacs-additional-packages '(all-the-icons-ivy
-                                      atomic-chrome
-                                      define-word
-                                      doom-themes
-                                      eslintd-fix
-                                      evil-lion
-                                      fancy-narrow
-                                      flycheck-vale
-                                      fringe-helper
-                                      google-this
-                                      graphql-mode
-                                      ivy-rich
-                                      key-chord
-                                      magithub
-                                      ;; TODO 2017-07-05
-                                      ;; https://github.com/domtronn/all-the-icons.el/issues/28
-                                      ;; Somehow this noticeably leads to lags/slow rendering
-                                      ;; I've tried using (setq inhibit-compacting-font-caches t)
-                                      ;; Also the setup doesn't work; need to run it explicitely?
-                                      ;; spaceline-all-the-icons
-                                      pretty-mode
-                                      solaire-mode
-                                      tldr)
+   dotspacemacs-additional-packages
+   '(
+     all-the-icons-ivy
+     atomic-chrome
+     define-word
+     doom-themes
+     eslintd-fix
+     evil-lion
+     fancy-narrow
+     flycheck-vale
+     fringe-helper
+     google-this
+     graphql-mode
+     ivy-rich
+     key-chord
+     magithub
+     ;; TODO 2017-07-05
+     ;; https://github.com/domtronn/all-the-icons.el/issues/28
+     ;; Somehow this noticeably leads to lags/slow rendering
+     ;; I've tried using (setq inhibit-compacting-font-caches t)
+     ;; Also the setup doesn't work; need to run it explicitely?
+     ;; spaceline-all-the-icons
+     pretty-mode
+     solaire-mode
+     tldr)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
