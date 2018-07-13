@@ -139,6 +139,7 @@ This function should only modify configuration layer settings."
      define-word
      doom-themes
      eslintd-fix
+     evil-collection
      evil-lion
      fancy-narrow
      flycheck-vale
