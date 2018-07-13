@@ -148,6 +148,7 @@ This function should only modify configuration layer settings."
      ivy-rich
      key-chord
      magithub
+     magit-todos
      ;; TODO 2017-07-05
      ;; https://github.com/domtronn/all-the-icons.el/issues/28
      ;; Somehow this noticeably leads to lags/slow rendering
