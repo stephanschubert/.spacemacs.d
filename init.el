@@ -80,10 +80,7 @@ This function should only modify configuration layer settings."
                  js2-mode-show-strict-warnings nil
                  js2-mode-show-parse-errors nil
                  node-add-modules-path t)
-     ;; 2017-07-05 - Deactivated in favor of `rjsx-mode' from the `aj-javascript' layer below.
-     ;; (javascript :variables
-     ;; react
-
+     react
      (shell :variables
             shell-default-shell 'eshell
             shell-default-height 30
