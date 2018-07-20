@@ -153,6 +153,7 @@ This function should only modify configuration layer settings."
      ;; I've tried using (setq inhibit-compacting-font-caches t)
      ;; Also the setup doesn't work; need to run it explicitely?
      ;; spaceline-all-the-icons
+     prettier-js
      pretty-mode
      solaire-mode
      tldr)
@@ -1083,13 +1084,10 @@ before packages are loaded."
 
   (add-hook 'compilation-finish-functions #'jazen/bury-compile-buffer-if-successful)
 
-  ;; Ensure `eslint_d` is in your `exec-path`: `$ npm install -g eslint_d`
-  (use-package eslintd-fix
-    :defer t
-    :commands eslintd-fix-mode
+  (use-package prettier-js
+    :commands prettier-js-mode
     :init
-    (progn
-      (add-hook 'js2-mode-hook #'eslintd-fix-mode t)))
+    (add-hook 'js2-mode-hook 'prettier-js-mode))
 
   (add-hook 'prog-mode-hook 'rainbow-mode)
 
