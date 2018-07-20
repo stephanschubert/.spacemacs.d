@@ -4,6 +4,7 @@
   :config
   (evil-collection-init
    '(
+     ivy-mode
      magit-todos
      rjsx-mode)))
 
