@@ -55,6 +55,9 @@ This function should only modify configuration layer settings."
      github
 
      (ivy :variables
+          ;; Note that ivy-rich has been reported to be very slow on macOS,
+          ;; but I've installed `emacs-plus` with the vfork patch.
+          ivy-enable-advanced-buffer-information t
           ;; Wrap while traversing in minibuf
           ivy-wrap t
           ;; Show the full virtual file paths
@@ -143,7 +146,6 @@ This function should only modify configuration layer settings."
      fringe-helper
      google-this
      graphql-mode
-     ivy-rich
      key-chord
      magithub
      magit-todos
