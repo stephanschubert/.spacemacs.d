@@ -136,6 +136,7 @@ This function should only modify configuration layer settings."
    '(
      all-the-icons-ivy
      atomic-chrome
+     carbon-now-sh
      define-word
      doom-themes
      eslintd-fix
