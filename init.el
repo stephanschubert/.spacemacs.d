@@ -43,7 +43,8 @@ This function should only modify configuration layer settings."
      ;; better-defaults
 
      ;; Required for less-css-mode
-     html
+     (html :variables
+           web-fmt-tool 'prettier)
      ;; chrome ;; 2018-02-01 — Doesn't work here.
      (clojure :variables
               clojure-enable-fancify-symbols t)
@@ -78,11 +79,13 @@ This function should only modify configuration layer settings."
                    langtool-default-language "en-US"
                    langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.1/libexec/languagetool-commandline.jar")
      (javascript :variables
+                 javascript-fmt-tool 'prettier
                  js2-basic-offset 2
                  js-indent-level 2
                  js2-mode-show-strict-warnings nil
                  js2-mode-show-parse-errors nil
                  node-add-modules-path t)
+     prettier
      react
      (shell :variables
             shell-default-shell 'eshell
@@ -156,7 +159,6 @@ This function should only modify configuration layer settings."
      ;; I've tried using (setq inhibit-compacting-font-caches t)
      ;; Also the setup doesn't work; need to run it explicitely?
      ;; spaceline-all-the-icons
-     prettier-js
      pretty-mode
      solaire-mode
      tldr)
@@ -1086,11 +1088,6 @@ before packages are loaded."
                         buffer)))
 
   (add-hook 'compilation-finish-functions #'jazen/bury-compile-buffer-if-successful)
-
-  (use-package prettier-js
-    :commands prettier-js-mode
-    :init
-    (add-hook 'js2-mode-hook 'prettier-js-mode))
 
   (add-hook 'prog-mode-hook 'rainbow-mode)
 
