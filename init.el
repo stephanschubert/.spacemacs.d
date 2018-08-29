@@ -607,6 +607,10 @@ before packages are loaded."
   (setq epa-armor t)
   ;; (auth-source-search :host "api.github.com" :user "jazen")
 
+  ;; https://stackoverflow.com/questions/25125200/emacs-error-ls-does-not-support-dired
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired nil))
+
   ;; https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746
   (setq auto-window-vscroll nil)
 
