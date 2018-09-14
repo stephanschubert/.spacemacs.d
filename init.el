@@ -50,6 +50,7 @@ This function should only modify configuration layer settings."
               clojure-enable-fancify-symbols t)
      (colors :variables
              colors-enable-rainbow-mode t)
+     macros
      elm
      emacs-lisp
      git
@@ -596,6 +597,15 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; UTF-8 all the things!
+  (set-language-environment 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+
   (setq epa-pinentry-mode 'loopback)
   (setq epa-armor t)
   ;; (auth-source-search :host "api.github.com" :user "jazen")
