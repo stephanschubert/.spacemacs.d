@@ -554,15 +554,8 @@ It should only modify the values of Spacemacs settings."
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
    dotspacemacs-pretty-docs t
-   )
+   ))
 
-  (defun define-keys (mode-map key-fn-pairs)
-    (mapc (lambda (key-fn)
-            (let ((key (kbd (car key-fn)))
-                  (function (car (cdr key-fn))))
-              (define-key mode-map key function)))
-          key-fn-pairs)
-    ))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -1032,14 +1025,6 @@ before packages are loaded."
   (key-chord-define evil-insert-state-map "jj" 'jazen/esc-and-jump)
   (key-chord-define evil-normal-state-map "jj" 'evil-avy-goto-word-or-subword-1)
   ;; (key-chord-define evil-normal-state-map "jj" 'evil-avy-goto-char-2)
-
-  ;; https://github.com/ekaschalk/.spacemacs.d/blob/5ec0cdbbba8cd9bfd47d895bfcd04e549c881de2/layers/macros/funcs.el#L40
-  (defun evil-global-set-keys (STATES &rest BINDINGS)
-    "`evil-global-set-key' for all STATES with possibly many BINDINGS."
-    (--each STATES
-      (-each (-partition 2 BINDINGS)
-        (-lambda ((key cmd))
-          (evil-global-set-key it key cmd)))))
 
   (evil-global-set-keys
    '(normal visual motion)
