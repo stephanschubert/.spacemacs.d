@@ -107,7 +107,8 @@ This function should only modify configuration layer settings."
 
      search-engine
      (spacemacs-layouts :variables
-                        spacemacs-layouts-directory "~/.spacemacs.d/")
+       layouts-enable-autosave t
+       spacemacs-layouts-directory "~/.spacemacs.d/")
      syntax-checking
 
      ;; https://github.com/syl20bnr/spacemacs/issues/4285#issuecomment-234579627
@@ -361,7 +362,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
