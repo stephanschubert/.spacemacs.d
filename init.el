@@ -1,7 +1,9 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
+(defvar linux? (eq system-type 'gnu/linux)
 
+  "Are we on a gnu/linux machine?")
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -50,13 +52,14 @@ This function should only modify configuration layer settings."
               clojure-enable-fancify-symbols t)
      (colors :variables
              colors-enable-rainbow-mode t)
+
      display
      macros
+
      elm
      emacs-lisp
      git
      github
-
      (ivy :variables
           ;; Note that ivy-rich has been reported to be very slow on macOS,
           ;; but I've installed `emacs-plus` with the vfork patch.
@@ -76,17 +79,20 @@ This function should only modify configuration layer settings."
                markdown-live-preview-engine 'vmd)
      ;; org
      osx
-     prose
+     ;; prose
      (languagetool :variables
                    langtool-default-language "en-US"
                    langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.1/libexec/languagetool-commandline.jar")
      (javascript :variables
+                 javascript-disable-tern-port-files nil
                  javascript-fmt-tool 'prettier
                  js2-basic-offset 2
                  js-indent-level 2
                  js2-mode-show-strict-warnings nil
                  js2-mode-show-parse-errors nil
                  node-add-modules-path t)
+     (json :variables
+           json-fmt-tool 'prettier)
      prettier
      react
      (shell :variables
@@ -140,11 +146,13 @@ This function should only modify configuration layer settings."
    ;; '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
    dotspacemacs-additional-packages
    '(
+     use-package-ensure-system-package
      all-the-icons-ivy
      atomic-chrome
      carbon-now-sh
-     define-word
+     ;; define-word
      doom-themes
+     editorconfig
      eslintd-fix
      evil-collection
      evil-lion
@@ -153,6 +161,8 @@ This function should only modify configuration layer settings."
      fringe-helper
      google-this
      graphql-mode
+     indium
+     js2-refactor
      key-chord
      magithub
      magit-todos
@@ -487,7 +497,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
-   dotspacemacs-smartparens-strict-mode nil
+   dotspacemacs-smartparens-strict-mode t
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
@@ -501,7 +511,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, start an Emacs server if one is not already running.
    ;; (default nil)
-   dotspacemacs-enable-server nil
+   dotspacemacs-enable-server t
 
    ;; Set the emacs server socket location.
    ;; If nil, uses whatever the Emacs default is, otherwise a directory path
@@ -806,10 +816,10 @@ before packages are loaded."
     ("p" ping)
     ("s" jazen/shell-command))
 
-  (use-package define-word
-    :ensure t
-    :bind (("H-d" . define-word-at-point)
-           ("H-D" . define-word)))
+  ;; (use-package define-word
+  ;;   :ensure t
+  ;;   :bind (("H-d" . define-word-at-point)
+  ;;          ("H-D" . define-word)))
 
   (use-package tldr
     :ensure t
@@ -833,7 +843,30 @@ before packages are loaded."
            "--follow " ; follow symlinks
            "%S"))
 
+  ;; Activate when using https://github.com/redguardtoo/evil-nerd-commenter v3.2.0
+  ;; (defun counsel-imenu-comments ()
+  ;;   "Imenu display comments."
+  ;;   (interactive)
+  ;;   (let* ((imenu-create-index-function 'evilnc-imenu-create-index-function))
+  ;;     (counsel-imenu)))
+
+  ;; http://endlessparentheses.com/faster-pop-to-mark-command.html
+  (defun jazen/multi-pop-to-mark (orig-fun &rest args)
+    "Call ORIG-FUN until the cursor moves.
+Try the repeated popping up to 10 times."
+    (let ((p (point)))
+      (dotimes (i 10)
+        (when (= p (point))
+          (apply orig-fun args)))))
+
+  (advice-add 'pop-to-mark-command :around
+    #'jazen/multi-pop-to-mark)
+
   (setq-default
+    ;; Keep pressing `C-SPC` after the first invocation of `C-u C-SPC` to jump
+    ;; to previous locations stored in the mark ring.
+   set-mark-command-repeat-pop t
+
    x-stretch-cursor t
    find-file-visit-truename t
    ping-program-options '("-c" "4")
@@ -889,7 +922,7 @@ before packages are loaded."
   (fset 'evil-visual-update-x-selection 'ignore)
 
   ;; https://github.com/Malabarba/aggressive-indent-mode#customization
-  (global-aggressive-indent-mode 1)
+  ;; (global-aggressive-indent-mode 1)
   ;; (defun disable-aggressive-indent ()
   ;;   (interactive)
   ;;   (aggressive-indent-mode -1))
@@ -904,6 +937,8 @@ before packages are loaded."
   (add-hook 'term-mode-hook
             (lambda ()
               (setq term-buffer-maximum-size 10000)))
+  ;; Try to highlight most ECMA built-ins
+  (setq js2-highlight-level 3)
 
   (defvar jazen/clojure--prettify-symbols-alist
     '(("not=" . ?≠)
@@ -924,10 +959,10 @@ before packages are loaded."
       ("."      . ?•)
       ("eq" . ?=)))
 
-  (eval-after-load 'js2-mode
-    '(setq js--prettify-symbols-alist
-           (append jazen/js--prettify-symbols-alist
-                   js--prettify-symbols-alist)))
+  ;; (eval-after-load 'js2-mode
+  ;;   '(setq js--prettify-symbols-alist
+  ;;          (append jazen/js--prettify-symbols-alist
+  ;;                  js--prettify-symbols-alist)))
 
   (eval-after-load 'clojure-mode
     '(setq clojure--prettify-symbols-alist
@@ -989,30 +1024,30 @@ before packages are loaded."
   ;; (spaceline-compile)
 
   (define-keys global-map
-    '(("C-c C-." dumb-jump-go)
-      ("C-c C-," dumb-jump-back)
-      ("C-s" counsel-grep-or-swiper)
-      ("M-g M-g" hydra-git-gutter+/body)))
+    ;; (kbd "C-c C-.") 'dumb-jump-go
+    ;; (kbd "C-c C-,") 'dumb-jump-back
+    (kbd "C-s") 'counsel-grep-or-swiper
+    (kbd "M-g M-g") 'hydra-git-gutter+/body)
 
   ;; No idea what goes wrong but I need to explicitly bind the keys.
   (define-keys yas-minor-mode-map
-    '(("C-l" hippie-expand)))
+    (kbd "C-l") 'hippie-expand)
 
   ;; Re-bind so these keys behave like everywhere else
   (eval-after-load 'emmet-mode
     '(define-keys emmet-mode-keymap
-       '(("C-j" electric-newline-and-maybe-indent)
-         ("C-l" emmet-expand-line))))
+       (kbd "C-j") 'electric-newline-and-maybe-indent
+       (kbd "C-l") 'emmet-expand-line))
 
   (define-keys evil-normal-state-map
-    '(("j" evil-next-visual-line)
-      ("k" evil-previous-visual-line)
-      ("+" evil-numbers/inc-at-pt)
-      ("-" evil-numbers/dec-at-pt)
-      ("ö SPC" evil-unimpaired/insert-space-above)
-      ("Ö SPC" evil-unimpaired/insert-space-below)
-      ("ö P" evil-unimpaired/paste-above)
-      ("ö p" evil-unimpaired/paste-below)))
+    "j" 'evil-next-visual-line
+    "k" 'evil-previous-visual-line
+    "+" 'evil-numbers/inc-at-pt
+    "-" 'evil-numbers/dec-at-pt
+    (kbd "ö SPC") 'evil-unimpaired/insert-space-above
+    (kbd "Ö SPC") 'evil-unimpaired/insert-space-below
+    (kbd "ö P") 'evil-unimpaired/paste-above
+    (kbd "ö p") 'evil-unimpaired/paste-below)
 
   ;; Bury buffers instead of killing them by default
   (spacemacs/set-leader-keys "bd" 'bury-buffer)
@@ -1045,8 +1080,8 @@ before packages are loaded."
 
   ;; https://github.com/syl20bnr/spacemacs/wiki/Keymaps-guide
   (define-keys evil-normal-state-map
-    '(("SPC s o" google-this-word)
-      ("s" avy-goto-char-timer)))
+    (kbd "SPC s o") 'google-this-word
+    "s" 'avy-goto-char-timer)
 
   ;; Open files and go places like we see from error messages, i e: path:line:col
   ;; (to-do "make `find-file-line-number' work for emacsclient as well")
@@ -1097,7 +1132,7 @@ before packages are loaded."
   (add-to-list 'flycheck-global-modes 'markdown-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode)
 
-  (setq-default flycheck-stylelintrc ".stylelintrc")
+  (setq-default flycheck-stylelintrc "stylelint.config.js")
   (add-to-list 'flycheck-global-modes 'css-mode)
 
   ;; https://github.com/syl20bnr/spacemacs/issues/10315#issuecomment-365688761
@@ -1206,24 +1241,25 @@ before packages are loaded."
   (defhydra hydra-git-gutter+
     (:body-pre (git-gutter+-mode 1) :hint nil)
     "
-Git gutter:
-
-  _j_: next hunk        _s_tage hunk     _q_uit
-  _k_: previous hunk    _r_evert hunk    _Q_uit and deactivate git-gutter+
-  ^ ^                   _p_opup hunk
-  _h_: first hunk
-  _l_: last hunk        _c_ommit (magit)
+  ^File^     ^Hunk^    ^Repo^
+---------------------------------
+  _c_ommit   _n_ext    _P_ush
+  _d_iff     _p_rev
+  ^ ^        _s_tage
+  ^ ^        _r_evert
 "
-    ("j" git-gutter+-next-hunk)
-    ("k" git-gutter+-previous-hunk)
-    ("h" (progn (goto-char (point-min))
-                (git-gutter+-next-hunk 1)))
-    ("l" (progn (goto-char (point-min))
-                (git-gutter+-previous-hunk 1)))
+    ("n" git-gutter+-next-hunk)
+    ("p" git-gutter+-previous-hunk)
+    ;; ("h" (progn (goto-char (point-min))
+    ;;             (git-gutter+-next-hunk 1)))
+    ;; ("l" (progn (goto-char (point-min))
+    ;;             (git-gutter+-previous-hunk 1)))
     ("s" git-gutter+-stage-hunks)
     ("r" git-gutter+-revert-hunk)
-    ("p" git-gutter+-popup-hunk)
-    ("c" magit-commit)
+    ;; ("p" git-gutter+-popup-hunk)
+    ("d" magit-diff-buffer-file)
+    ("c" magit-commit :exit nil)
+    ("P" magit-push-implicitly)
     ;; ("R" git-gutter+-set-start-revision)
     ("q" nil :color blue)
     ("Q" (progn (git-gutter+-mode -1)
@@ -1262,8 +1298,8 @@ Git gutter:
       (fancy-narrow-mode)))
 
   (define-keys evil-normal-state-map
-    '(("SPC n r" fancy-narrow-to-region)
-      ("SPC n w" fancy-widen)))
+    (kbd "SPC n r") 'fancy-narrow-to-region
+    (kbd "SPC n w") 'fancy-widen)
 
   (add-hook 'markdown-mode-hook
             '(lambda ()
