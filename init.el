@@ -52,7 +52,7 @@ This function should only modify configuration layer settings."
               clojure-enable-fancify-symbols t)
      (colors :variables
              colors-enable-rainbow-mode t)
-
+     copy-as-format
      display
      macros
 
