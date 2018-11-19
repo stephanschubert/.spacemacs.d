@@ -156,6 +156,7 @@ This function should only modify configuration layer settings."
      eslintd-fix
      evil-collection
      evil-lion
+     exec-path-from-shell
      fancy-narrow
      flycheck-vale
      fringe-helper
