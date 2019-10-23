@@ -82,8 +82,11 @@ This function should only modify configuration layer settings."
      ;; prose
      (languagetool :variables
                    langtool-default-language "en-US"
-                   langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.1/libexec/languagetool-commandline.jar")
+                   langtool-language-tool-jar "/usr/local/opt/languagetool/libexec/languagetool-commandline.jar")
      (javascript :variables
+                 ;; Run `npm i -g typescript javascript-typescript-langserver`
+                 ;; javascript-backend 'lsp
+
                  javascript-disable-tern-port-files nil
                  javascript-fmt-tool 'prettier
                  js2-basic-offset 2
@@ -93,6 +96,12 @@ This function should only modify configuration layer settings."
                  node-add-modules-path t)
      (json :variables
            json-fmt-tool 'prettier)
+
+     ;; (lsp :variables
+     ;;      ;; Prevent lsp from selecting a checker/linter
+     ;;      lsp-ui-flycheck-enable nil)
+
+     org
      prettier
      react
      (shell :variables
@@ -147,10 +156,13 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      use-package-ensure-system-package
+     delight
      all-the-icons-ivy
      atomic-chrome
      carbon-now-sh
      ;; define-word
+     deadgrep
+     dumb-jump
      doom-themes
      editorconfig
      eslintd-fix
@@ -158,11 +170,11 @@ This function should only modify configuration layer settings."
      evil-lion
      exec-path-from-shell
      fancy-narrow
-     flycheck-vale
      fringe-helper
      google-this
      graphql-mode
      indium
+     ivy-historian
      js2-refactor
      key-chord
      magithub
@@ -174,6 +186,7 @@ This function should only modify configuration layer settings."
      ;; Also the setup doesn't work; need to run it explicitely?
      ;; spaceline-all-the-icons
      pretty-mode
+     selected
      solaire-mode
      tldr)
 
@@ -298,17 +311,17 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+    dotspacemacs-themes '(spacemacs-dark
+                          spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
-   ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
-   ;; are spaceline themes. `vanilla' is default Emacs mode-line. `custom' is a
-   ;; user defined themes, refer to the DOCUMENTATION.org for more info on how
-   ;; to create your own spaceline theme. Value can be a symbol or list with\
-   ;; additional properties.
+   ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
+   ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
+   ;; `vanilla' is default Emacs mode-line. `custom' is a user defined themes,
+   ;; refer to the DOCUMENTATION.org for more info on how to create your own
+   ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(doom :separator wave :separator-scale 1.5)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -684,8 +697,8 @@ before packages are loaded."
   ;; Use `v' in visual state to expand the region
   (define-key evil-visual-state-map "v" 'er/expand-region)
 
-  ;; (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
-  ;; (define-key ivy-minibuffer-map (kbd "C-w") 'evil-delete-backward-word)
+  (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
+  (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
 
   ;; Powerline: current date/time
   (setq-default display-time-string-forms
@@ -778,9 +791,6 @@ before packages are loaded."
 
   ;; (spaceline-toggle-hud-off)
 
-  ;; Recenter after jump to definition
-  (advice-add 'dumb-jump-go :after (lambda (&rest args) (recenter-top-bottom)))
-
   ;; Move point to the beginning of the line before opening a new line
   (advice-add 'open-line :before 'beginning-of-line)
 
@@ -821,6 +831,9 @@ before packages are loaded."
   ;;   :ensure t
   ;;   :bind (("H-d" . define-word-at-point)
   ;;          ("H-D" . define-word)))
+
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
 
   (use-package tldr
     :ensure t
@@ -873,7 +886,6 @@ Try the repeated popping up to 10 times."
    ping-program-options '("-c" "4")
 
    avy-timeout-seconds 0.35
-   dumb-jump-prefer-searcher 'rg
    evil-escape-unordered-key-sequence t
 
    ;; git-gutter-fr+-side 'left-fringe
@@ -942,28 +954,28 @@ Try the repeated popping up to 10 times."
   (setq js2-highlight-level 3)
 
   (defvar jazen/clojure--prettify-symbols-alist
-    '(("not=" . ?≠)
-      ("->" . ?→)
+    '(("not="       . ?≠)
+      ("->"         . ?→)
       ("identical?" . ?≡)))
 
   (defvar jazen/js--prettify-symbols-alist
     '(("function" . ?ƒ)
-      ("!=" . ?≠)
-      ("!==" . ?≢)
-      ("===" . ?≡)))
+      ("!="       . ?≠)
+      ("!=="      . ?≢)
+      ("==="      . ?≡)))
 
   (defvar jazen/lisp-prettify-symbols-alist
     '(("compose" . ?∘)
-      ("curry" . ?»)
-      ("defun" . ?ƒ)
-      ("rcurry" . ?«)
-      ("."      . ?•)
-      ("eq" . ?=)))
+      ("curry"   . ?»)
+      ("defun"   . ?ƒ)
+      ("rcurry"  . ?«)
+      ("."       . ?•)
+      ("eq"      . ?=)))
 
-  ;; (eval-after-load 'js2-mode
-  ;;   '(setq js--prettify-symbols-alist
-  ;;          (append jazen/js--prettify-symbols-alist
-  ;;                  js--prettify-symbols-alist)))
+  (eval-after-load 'js2-mode
+    '(setq js--prettify-symbols-alist
+           (append jazen/js--prettify-symbols-alist
+                   js--prettify-symbols-alist)))
 
   (eval-after-load 'clojure-mode
     '(setq clojure--prettify-symbols-alist
@@ -1049,6 +1061,8 @@ Try the repeated popping up to 10 times."
     (kbd "Ö SPC") 'evil-unimpaired/insert-space-below
     (kbd "ö P") 'evil-unimpaired/paste-above
     (kbd "ö p") 'evil-unimpaired/paste-below)
+
+  (spacemacs/set-leader-keys "gj" 'dumb-jump-go)
 
   ;; Bury buffers instead of killing them by default
   (spacemacs/set-leader-keys "bd" 'bury-buffer)
@@ -1225,19 +1239,19 @@ Try the repeated popping up to 10 times."
   ;; Magit Popup extensions; taken from
   ;; https://github.com/magit/magit/wiki/Additional-proposed-infix-arguments-and-suffix-commands
 
-  (magit-define-popup-switch 'magit-log-popup
-    ?m "Omit merge commits" "--no-merges")
+  ;; (magit-define-popup-switch 'magit-log-popup
+  ;;   ?m "Omit merge commits" "--no-merges")
 
   (autoload 'org-read-date "org")
 
   (defun magit-org-read-date (prompt &optional _default)
     (org-read-date 'with-time nil nil prompt))
 
-  (magit-define-popup-option 'magit-log-popup
-    ?s "Since date" "--since=" #'magit-org-read-date)
+  ;; (magit-define-popup-option 'magit-log-popup
+  ;;   ?s "Since date" "--since=" #'magit-org-read-date)
 
-  (magit-define-popup-option 'magit-log-popup
-    ?u "Until date" "--until=" #'magit-org-read-date)
+  ;; (magit-define-popup-option 'magit-log-popup
+  ;;   ?u "Until date" "--until=" #'magit-org-read-date)
 
   (defhydra hydra-git-gutter+
     (:body-pre (git-gutter+-mode 1) :hint nil)

@@ -1,5 +1,7 @@
 (use-package parrot
   :ensure t
+  :after delight
+  :delight
   :config
   (define-key evil-normal-state-map (kbd "C-r") 'parrot-rotate-next-word-at-point)
   (define-key evil-normal-state-map (kbd "C-S-r") 'parrot-rotate-prev-word-at-point)

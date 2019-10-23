@@ -1,7 +1,6 @@
-(use-package flycheck-vale
-  :ensure t
-  :init
-  (progn
-    (flycheck-vale-setup)))
+;; (use-package flycheck-vale
+;;   :ensure t
+;;   :after flycheck
+;;   :hook (flycheck-mode . flycheck-vale-setup))
 
 (provide 'package-flycheck-vale)

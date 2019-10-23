@@ -16,4 +16,9 @@
     (doom-themes-neotree-config)
     (doom-themes-org-config)))
 
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :defer t
+;;   :hook (after-init . doom-modeline-init))
+
 (provide 'package-doom-theme)
