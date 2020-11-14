@@ -28,20 +28,23 @@ This function should only modify configuration layer settings."
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
 
-   ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(rust
+     typescript
+     csv
+     sql
      auto-correct
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     ;; auto-completion
      ;; better-defaults
 
      ;; Required for less-css-mode
@@ -53,13 +56,15 @@ This function should only modify configuration layer settings."
      (colors :variables
              colors-enable-rainbow-mode t)
      copy-as-format
-     display
+     ;; display
+     pretty-code
+     ;; pretty-fonts
      macros
 
      elm
      emacs-lisp
      git
-     github
+     ;;github
      (ivy :variables
           ;; Note that ivy-rich has been reported to be very slow on macOS,
           ;; but I've installed `emacs-plus` with the vfork patch.
@@ -86,6 +91,7 @@ This function should only modify configuration layer settings."
      (javascript :variables
                  ;; Run `npm i -g typescript javascript-typescript-langserver`
                  ;; javascript-backend 'lsp
+                 javascript-lsp-linter nil
 
                  javascript-disable-tern-port-files nil
                  javascript-fmt-tool 'prettier
@@ -126,7 +132,8 @@ This function should only modify configuration layer settings."
        layouts-enable-autosave t
        spacemacs-layouts-directory "~/.spacemacs.d/")
      syntax-checking
-
+     (terraform :variables terraform-auto-format-on-save t
+                           terraform-backend 'lsp)
      ;; https://github.com/syl20bnr/spacemacs/issues/4285#issuecomment-234579627
      (version-control :variables
                       version-control-global-margin t
@@ -150,45 +157,49 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   ;; Example:
-   ;; dotspacemacs-additional-packages
-   ;; '((helm-spotify :location (recipe :fetcher github :repo "syl20bnr/helm-spotify")))
-   dotspacemacs-additional-packages
-   '(
-     use-package-ensure-system-package
-     delight
-     all-the-icons-ivy
-     atomic-chrome
-     carbon-now-sh
-     ;; define-word
-     deadgrep
-     dumb-jump
-     doom-themes
-     editorconfig
-     eslintd-fix
-     evil-collection
-     evil-lion
-     exec-path-from-shell
-     fancy-narrow
-     fringe-helper
-     google-this
-     graphql-mode
-     indium
-     ivy-historian
-     js2-refactor
-     key-chord
-     magithub
-     magit-todos
-     ;; TODO 2017-07-05
-     ;; https://github.com/domtronn/all-the-icons.el/issues/28
-     ;; Somehow this noticeably leads to lags/slow rendering
-     ;; I've tried using (setq inhibit-compacting-font-caches t)
-     ;; Also the setup doesn't work; need to run it explicitely?
-     ;; spaceline-all-the-icons
-     pretty-mode
-     selected
-     solaire-mode
-     tldr)
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
+   dotspacemacs-additional-packages '(
+      use-package-ensure-system-package
+      delight
+      all-the-icons-ivy
+      atomic-chrome
+      carbon-now-sh
+      ;; define-word
+      deadgrep
+      dumb-jump
+      doom-themes
+      editorconfig
+      eslintd-fix
+      evil-collection
+      evil-lion
+      evil-ex-shell-command
+      exec-path-from-shell
+      fira-code-mode
+      fancy-narrow
+      fringe-helper
+      google-this
+      graphql-mode
+      indium
+      ivy-explorer
+      ivy-historian
+      js2-refactor
+      key-chord
+      magithub
+      magit-todos
+      ;; TODO 2017-07-05
+      ;; https://github.com/domtronn/all-the-icons.el/issues/28
+      ;; Somehow this noticeably leads to lags/slow rendering
+      ;; I've tried using (setq inhibit-compacting-font-caches t)
+      ;; Also the setup doesn't work; need to run it explicitely?
+      ;; spaceline-all-the-icons
+      parrot
+      pretty-mode
+      selected
+      solaire-mode
+      super-save
+      tldr)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -219,18 +230,18 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-enable-emacs-pdumper nil
 
-   ;; File path pointing to emacs 27.1 executable compiled with support
-   ;; for the portable dumper (this is currently the branch pdumper).
-   ;; (default "emacs-27.0.50")
-   dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
+   ;; Name of executable file pointing to emacs 27+. This executable must be
+   ;; in your PATH.
+   ;; (default "emacs")
+   dotspacemacs-emacs-pdumper-executable-file "emacs"
 
    ;; Name of the Spacemacs dump file. This is the file will be created by the
    ;; portable dumper in the cache directory under dumps sub-directory.
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
-   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
-   ;; (default spacemacs.pdmp)
-   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+   ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
+   dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
@@ -250,14 +261,23 @@ It should only modify the values of Spacemacs settings."
    ;; (default '(100000000 0.1))
    dotspacemacs-gc-cons '(100000000 0.1)
 
+   ;; Set `read-process-output-max' when startup finishes.
+   ;; This defines how much data is read from a foreign process.
+   ;; Setting this >= 1 MB should increase performance for lsp servers
+   ;; in emacs 27.
+   ;; (default (* 1024 1024))
+   dotspacemacs-read-process-output-max (* 1024 1024)
+
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
-   ;; (default nil)
-   dotspacemacs-verify-spacelpa-archives nil
+   ;; (default t)
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -278,8 +298,10 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
 
-   ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   ;; If non-nil show the version string in the Spacemacs buffer. It will
+   ;; appear as (spacemacs version)@(emacs version)
+   ;; (default t)
+   dotspacemacs-startup-buffer-show-version t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -301,8 +323,21 @@ It should only modify the values of Spacemacs settings."
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
 
+   ;; Default major mode for a new empty buffer. Possible values are mode
+   ;; names such as `text-mode'; and `nil' to use Fundamental mode.
+   ;; (default `text-mode')
+   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
+
+   ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
+   ;; *scratch* buffer will be saved and restored automatically.
+   dotspacemacs-scratch-buffer-persistent nil
+
+   ;; If non-nil, `kill-buffer' on *scratch* buffer
+   ;; will bury it instead of killing.
+   dotspacemacs-scratch-buffer-unkillable nil
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -329,8 +364,8 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro for Powerline"
-                               :size 10
+   dotspacemacs-default-font '("Fira Code"
+                               :size 12
                                :weight normal
                                :width normal)
 
@@ -352,8 +387,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-major-mode-leader-key ","
 
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m")
-   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; (default "C-M-m" for terminal mode, "<M-return>" for GUI mode).
+   ;; Thus M-RET should work as leader key in both GUI and terminal modes.
+   ;; C-M-m also should work in terminal mode, but not in GUI mode.
+   dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
 
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
@@ -362,21 +399,6 @@ It should only modify the values of Spacemacs settings."
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
-
-   ;; If non-nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ nil
-
-   ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
-   ;; there. (default t)
-   dotspacemacs-retain-visual-state-on-shift t
-
-   ;; If non-nil, `J' and `K' move lines up and down when in visual mode.
-   ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
-
-   ;; If non-nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
-   ;; (default nil)
-   dotspacemacs-ex-substitute-global nil
 
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
@@ -407,27 +429,10 @@ It should only modify the values of Spacemacs settings."
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
 
-   ;; If non-nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
-
-   ;; if non-nil, the helm header is hidden when there is only one source.
-   ;; (default nil)
-   dotspacemacs-helm-no-header nil
-
-   ;; define the position to display `helm', options are `bottom', `top',
-   ;; `left', or `right'. (default 'bottom)
-   dotspacemacs-helm-position 'bottom
-
-   ;; Controls fuzzy matching in helm. If set to `always', force fuzzy matching
-   ;; in all non-asynchronous sources. If set to `source', preserve individual
-   ;; source settings. Else, disable fuzzy matching in all sources.
-   ;; (default 'always)
-   dotspacemacs-helm-use-fuzzy 'always
-
-   ;; If non-nil, the paste transient-state is enabled. While enabled, pressing
-   ;; `p' several times cycles through the elements in the `kill-ring'.
-   ;; (default nil)
-   dotspacemacs-enable-paste-transient-state t
+   ;; If non-nil, the paste transient-state is enabled. While enabled, after you
+   ;; paste something, pressing `C-j' and `C-k' several times cycles through the
+   ;; elements in the `kill-ring'. (default nil)
+   dotspacemacs-enable-paste-transient-state nil
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
@@ -464,6 +469,11 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup nil
 
+   ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
+   ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
+   ;; borderless fullscreen. (default nil)
+   dotspacemacs-undecorated-at-startup nil
+
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -491,10 +501,14 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smooth-scrolling t
 
    ;; Control line numbers activation.
-   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
-   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
+   ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
+   ;; numbers are relative. If set to `visual', line numbers are also relative,
+   ;; but lines are only visual lines are counted. For example, folded lines
+   ;; will not be counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
+   ;;   :visual nil
    ;;   :disabled-for-modes dired-mode
    ;;                       doc-view-mode
    ;;                       markdown-mode
@@ -502,19 +516,20 @@ It should only modify the values of Spacemacs settings."
    ;;                       pdf-view-mode
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
+   ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers 'relative
 
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
 
    ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
-   dotspacemacs-smartparens-strict-mode t
+   dotspacemacs-smartparens-strict-mode nil
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
@@ -573,6 +588,20 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
+   ;; If non nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; indent handling like has been reported for `go-mode'.
+   ;; If it does deactivate it here.
+   ;; (default t)
+   dotspacemacs-use-clean-aindent-mode t
+
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -581,8 +610,10 @@ It should only modify the values of Spacemacs settings."
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
    dotspacemacs-pretty-docs t
-   ))
 
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -598,7 +629,9 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-
+  ;; (require 'window-purpose) ; workaround until https://github.com/bmag/emacs-purpose/issues/158 is fixed
+  ;; (require 'semantic/db-file) ; https://github.com/syl20bnr/spacemacs/issues/12843
+  
   ;; https://github.com/syl20bnr/spacemacs/blob/develop/doc/FAQ.org#why-is-spacemacs-hanging-on-startup
   ;; Had this problem at the office; maybe just related to their network's setup?
   (setq tramp-ssh-controlmaster-options
@@ -697,7 +730,7 @@ before packages are loaded."
   ;; Use `v' in visual state to expand the region
   (define-key evil-visual-state-map "v" 'er/expand-region)
 
-  (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
+  ;; (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
   (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
 
   ;; Powerline: current date/time
@@ -760,7 +793,7 @@ before packages are loaded."
      ("s" jazen/projectile-find-file-split "in horizontal split")
      ("d" jazen/projectile-delete-file-confirm "delete file")))
 
-  (defun jazen/pop-to-buffer-vsplit (buffer)
+  (defun jazen/pop-tg-buffer-vsplit (buffer)
     (pop-to-buffer buffer '(spacemacs//display-in-split (split-side . right))))
 
   (defun jazen/pop-to-buffer-split (buffer)
@@ -842,9 +875,9 @@ before packages are loaded."
   ;; Use `rg' as much as possible and avoid hanging emacs when searching
   ;; files with very long lines.
   ;; https://oremacs.com/2018/03/05/grep-exclude/
-  (setq-default
-   counsel-git-cmd "rg --files"
-   counsel-rg-base-command "rg -S -M 120 --no-heading --line-number --color never %s .")
+  ;; (setq-default
+  ;;  counsel-git-cmd "rg --files"
+  ;;  counsel-rg-base-command "rg -S -M 120 --no-heading --line-number --color never %s .")
 
   (setq-default
    counsel-ag-base-command
@@ -972,7 +1005,7 @@ Try the repeated popping up to 10 times."
       ("."       . ?•)
       ("eq"      . ?=)))
 
-  (eval-after-load 'js2-mode
+  (eval-after-load 'rjsx-mode
     '(setq js--prettify-symbols-alist
            (append jazen/js--prettify-symbols-alist
                    js--prettify-symbols-alist)))
@@ -1026,10 +1059,10 @@ Try the repeated popping up to 10 times."
                                           (setq magit-commit-show-diff nil)))
   (global-git-commit-mode t)
 
-  (require 'gh)
-  (setq-default
-   paradox-execute-asynchronously t
-   paradox-github-token (gh-auth-get-oauth-token))
+  ;; (require 'gh)
+  ;; (setq-default
+  ;;  paradox-execute-asynchronously t
+  ;;  paradox-github-token (gh-auth-get-oauth-token))
 
   (setq powerline-default-separator 'utf-8)
   (setq powerline-gui-use-vcs-glyph t)
@@ -1151,10 +1184,10 @@ Try the repeated popping up to 10 times."
   (add-to-list 'flycheck-global-modes 'css-mode)
 
   ;; https://github.com/syl20bnr/spacemacs/issues/10315#issuecomment-365688761
-  (spacemacs|use-package-add-hook company
-    :post-config
-    (define-key company-active-map (kbd "RET") nil)
-    (define-key company-active-map [return] nil))
+  ;; (spacemacs|use-package-add-hook company
+  ;;   :post-config
+  ;;   (define-key company-active-map (kbd "RET") nil)
+  ;;   (define-key company-active-map [return] nil))
 
   (global-company-mode)
 
@@ -1321,6 +1354,15 @@ Try the repeated popping up to 10 times."
                (auto-complete-mode t)
                (local-unset-key [tab])
                (setq-local yas-fallback-behavior '(apply auto-complete))))
+
+  (with-eval-after-load 'evil-surround
+    (setq-default evil-surround-pairs-alist (push '(?g "$" . "$") evil-surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (push '(?h "(" . ")") evil-surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (push '(?j "[" . "]") evil-surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (push '(?k "{" . "}") evil-surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (push '(?l "<" . ">") evil-surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (push '(?ø "'" . "'") evil-surround-pairs-alist))
+    (setq-default evil-surround-pairs-alist (push '(?æ "\"" . "\"") evil-surround-pairs-alist)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
