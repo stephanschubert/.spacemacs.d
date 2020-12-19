@@ -30,7 +30,7 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
@@ -56,11 +56,7 @@ This function should only modify configuration layer settings."
      (colors :variables
              colors-enable-rainbow-mode t)
      copy-as-format
-     ;; display
-     pretty-code
-     ;; pretty-fonts
      macros
-
      elm
      emacs-lisp
      git
@@ -205,7 +201,24 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(
+    ;; Packages I don't use (non-exhaustive)
+    centered-cursor-mode
+    column-enforce-mode
+    company-statistics
+    eshell-prompt-extras
+    evil-tutor
+    fancy-battery
+    fill-column-indicator
+    gnuplot
+    golden-ratio
+    indent-guide
+    live-py-mode
+    multi-term
+    mwim
+    neotree
+    py-isort
+    yapfify)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -409,7 +422,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -867,6 +880,7 @@ before packages are loaded."
 
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook 'prettier-js-mode)
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode)
 
   (use-package tldr
     :ensure t
