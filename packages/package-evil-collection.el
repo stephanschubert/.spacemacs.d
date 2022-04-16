@@ -15,7 +15,7 @@
   (evil-collection-init
    '(
      ivy-mode
-     magit-todos
+     ;; magit-todos
      rjsx-mode)))
 
 (provide 'package-evil-collection)

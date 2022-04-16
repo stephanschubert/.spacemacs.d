@@ -34,8 +34,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(rust
-     typescript
+   '(
      csv
      sql
      auto-correct
@@ -51,15 +50,16 @@ This function should only modify configuration layer settings."
      (html :variables
            web-fmt-tool 'prettier)
      ;; chrome ;; 2018-02-01 — Doesn't work here.
-     (clojure :variables
-              clojure-enable-fancify-symbols t)
+     ;; (clojure :variables
+     ;;          clojure-enable-fancify-symbols t)
      (colors :variables
              colors-enable-rainbow-mode t)
      copy-as-format
      macros
-     elm
-     emacs-lisp
+     ;; elm
+     ;; emacs-lisp
      git
+     graphql
      ;;github
      (ivy :variables
           ;; Note that ivy-rich has been reported to be very slow on macOS,
@@ -84,27 +84,62 @@ This function should only modify configuration layer settings."
      (languagetool :variables
                    langtool-default-language "en-US"
                    langtool-language-tool-jar "/usr/local/opt/languagetool/libexec/languagetool-commandline.jar")
+     syntax-checking
+
+     (ruby :variables
+           ruby-enable-enh-ruby-mode t
+           ruby-version-manager 'rbenv
+           ruby-test-runner 'rspec
+           ruby-prettier-on-save t
+           ;; The only prerequisite gem is solargraph which can be installed globally
+           ruby-backend 'lsp)
+
+     ruby-on-rails
+
+     ;; https://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+
      (javascript :variables
                  ;; Run `npm i -g typescript javascript-typescript-langserver`
-                 ;; javascript-backend 'lsp
+                 javascript-backend 'tern
+                 ;; javascript-backend 'tern
                  javascript-lsp-linter nil
 
                  javascript-disable-tern-port-files nil
                  javascript-fmt-tool 'prettier
+                 javascript-fmt-on-save t
+
                  js2-basic-offset 2
                  js-indent-level 2
                  js2-mode-show-strict-warnings nil
                  js2-mode-show-parse-errors nil
                  node-add-modules-path t)
+
      (json :variables
            json-fmt-tool 'prettier)
 
-     ;; (lsp :variables
-     ;;      ;; Prevent lsp from selecting a checker/linter
-     ;;      lsp-ui-flycheck-enable nil)
+     (typescript :variables
+                 typescript-backend 'tide
+                 typescript-lsp-linter nil
 
-     org
-     prettier
+                 typescript-linter 'eslint
+
+                 typescript-fmt-on-save t
+                 typescript-fmt-tool 'prettier)
+
+     (lsp :variables
+          lsp-headerline-breadcrumb-segments nil
+          ;; Prevent lsp from selecting a checker/linter
+          lsp-ui-flycheck-enable nil
+          ;; lsp-diagnostics-provider :auto ;; :none
+          lsp-ui-sideline-enable nil
+
+          ;; FIXME: Disable because company-capf throws a lot of errors.
+          ;; lsp-completion-provider :none
+          ;; Avoid cluttering the UI with error overlays
+          lsp-ui-doc-enable nil)
+
+     ;; org
+     ;; prettier
      react
      (shell :variables
             shell-default-shell 'eshell
@@ -127,7 +162,6 @@ This function should only modify configuration layer settings."
      (spacemacs-layouts :variables
        layouts-enable-autosave t
        spacemacs-layouts-directory "~/.spacemacs.d/")
-     syntax-checking
      (terraform :variables terraform-auto-format-on-save t
                            terraform-backend 'lsp)
      ;; https://github.com/syl20bnr/spacemacs/issues/4285#issuecomment-234579627
@@ -158,14 +192,14 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
       use-package-ensure-system-package
-      delight
-      all-the-icons-ivy
+      (delight :location "~/.spacemacs.d/packages")
       atomic-chrome
+      ;; (all-the-icons-ivy-rich :location "~/.spacemacs.d/packages")
       carbon-now-sh
       ;; define-word
-      deadgrep
+      (deadgrep :location "~/.spacemacs.d/packages")
       dumb-jump
-      doom-themes
+      ;; doom-themes
       editorconfig
       eslintd-fix
       evil-collection
@@ -175,6 +209,7 @@ This function should only modify configuration layer settings."
       fira-code-mode
       fancy-narrow
       fringe-helper
+      git
       google-this
       graphql-mode
       indium
@@ -182,8 +217,6 @@ This function should only modify configuration layer settings."
       ivy-historian
       js2-refactor
       key-chord
-      magithub
-      magit-todos
       ;; TODO 2017-07-05
       ;; https://github.com/domtronn/all-the-icons.el/issues/28
       ;; Somehow this noticeably leads to lags/slow rendering
@@ -217,7 +250,7 @@ This function should only modify configuration layer settings."
     multi-term
     mwim
     neotree
-    py-isort
+    pay-isort
     yapfify)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -237,9 +270,13 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
-   ;; If non-nil then enable support for the portable dumper. You'll need
-   ;; to compile Emacs 27 from source following the instructions in file
+   ;; If non-nil then enable support for the portable dumper. You'll need to
+   ;; compile Emacs 27 from source following the instructions in file
    ;; EXPERIMENTAL.org at to root of the git repository.
+   ;;
+   ;; WARNING: pdumper does not work with Native Compilation, so it's disabled
+   ;; regardless of the following setting when native compilation is in effect.
+   ;;
    ;; (default nil)
    dotspacemacs-enable-emacs-pdumper nil
 
@@ -279,7 +316,7 @@ It should only modify the values of Spacemacs settings."
    ;; Setting this >= 1 MB should increase performance for lsp servers
    ;; in emacs 27.
    ;; (default (* 1024 1024))
-   dotspacemacs-read-process-output-max (* 1024 1024)
+   dotspacemacs-read-process-output-max (* 4096 4096)
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
@@ -327,14 +364,29 @@ It should only modify the values of Spacemacs settings."
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
-   ;; `recents' `bookmarks' `projects' `agenda' `todos'.
+   ;; `recents' `recents-by-project' `bookmarks' `projects' `agenda' `todos'.
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
+   ;; The exceptional case is `recents-by-project', where list-type must be a
+   ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
+   ;; number is the project limit and the second the limit on the recent files
+   ;; within a project.
    dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
+
+   ;; Show numbers before the startup list lines. (default t)
+   dotspacemacs-show-startup-list-numbers t
+
+   ;; The minimum delay in seconds between number key presses. (default 0.4)
+   dotspacemacs-startup-buffer-multi-digit-delay 0.4
+
+   ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
+   ;; This has no effect in terminal or if "all-the-icons" package or the font
+   ;; is not installed. (default nil)
+   dotspacemacs-startup-buffer-show-icons nil
 
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
@@ -359,8 +411,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-    dotspacemacs-themes '(spacemacs-dark
-                          spacemacs-light)
+   dotspacemacs-themes '(spacemacs-dark
+                         spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -513,12 +565,16 @@ It should only modify the values of Spacemacs settings."
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
 
+   ;; Show the scroll bar while scrolling. The auto hide time can be configured
+   ;; by setting this variable to a number. (default t)
+   dotspacemacs-scroll-bar-while-scrolling t
+
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
    ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
    ;; numbers are relative. If set to `visual', line numbers are also relative,
-   ;; but lines are only visual lines are counted. For example, folded lines
-   ;; will not be counted and wrapped lines are counted as multiple lines.
+   ;; but only visual lines are counted. For example, folded lines will not be
+   ;; counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
    ;;   :visual nil
@@ -537,9 +593,14 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
 
-   ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
+   ;; If non-nil and `dotspacemacs-activate-smartparens-mode' is also non-nil,
+   ;; `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
+
+   ;; If non-nil smartparens-mode will be enabled in programming modes.
+   ;; (default t)
+   dotspacemacs-activate-smartparens-mode t
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
@@ -587,12 +648,18 @@ It should only modify the values of Spacemacs settings."
    ;; %n - Narrow if appropriate
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
+   ;; If nil then Spacemacs uses default `frame-title-format' to avoid
+   ;; performance issues, instead of calculating the frame title by
+   ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
    dotspacemacs-frame-title-format "%I@%S"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
+
+   ;; Show trailing whitespace (default t)
+   dotspacemacs-show-trailing-whitespace t
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
@@ -601,12 +668,15 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
-   ;; If non nil activate `clean-aindent-mode' which tries to correct
-   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; If non-nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfere with mode specific
    ;; indent handling like has been reported for `go-mode'.
    ;; If it does deactivate it here.
    ;; (default t)
    dotspacemacs-use-clean-aindent-mode t
+
+   ;; Accept SPC as y for prompts if non-nil. (default nil)
+   dotspacemacs-use-SPC-as-y nil
 
    ;; If non-nil shift your number row to match the entered keyboard layout
    ;; (only in insert state). Currently supported keyboard layouts are:
@@ -625,8 +695,11 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-pretty-docs t
 
    ;; If nil the home buffer shows the full path of agenda items
-   ;; and todos. If non nil only the file name is shown.
-   dotspacemacs-home-shorten-agenda-source nil))
+   ;; and todos. If non-nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil
+
+   ;; If non-nil then byte-compile some of Spacemacs files.
+   dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -634,7 +707,8 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env))
+  (spacemacs/load-spacemacs-env)
+)
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -651,7 +725,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
   ;; Prevent Custom from dumping its local settings into this file.
-  (add-to-load-path "~/.spacemacs.d/packages")
   (setq custom-file "~/.spacemacs.d/.custom")
   (load-file custom-file)
   )
@@ -882,6 +955,10 @@ before packages are loaded."
   (add-hook 'web-mode-hook 'prettier-js-mode)
   (add-hook 'rjsx-mode-hook 'prettier-js-mode)
 
+  (add-hook 'js2-mode-hook 'eslintd-fix-mode)
+  (add-hook 'web-mode-hook 'eslintd-fix-mode)
+  (add-hook 'rjsx-mode-hook 'eslintd-fix-mode)
+
   (use-package tldr
     :ensure t
     :defer t)
@@ -923,6 +1000,9 @@ Try the repeated popping up to 10 times."
   (advice-add 'pop-to-mark-command :around
     #'jazen/multi-pop-to-mark)
 
+  (eval-after-load 'projectile
+    '(add-to-list 'projectile-globally-ignored-directories "node_modules"))
+
   (setq-default
     ;; Keep pressing `C-SPC` after the first invocation of `C-u C-SPC` to jump
     ;; to previous locations stored in the mark ring.
@@ -962,7 +1042,7 @@ Try the repeated popping up to 10 times."
    web-mode-enable-css-colorization t
 
    clean-buffer-list-kill-regexps '("^.*$") ;; Set what to kill (everything)
-   clean-buffer-list-kill-never-buffer-names ;; Set what not to kill
+   lean-buffer-list-kill-never-buffer-names ;; Set what not to kill
    '("*Messages*"
      "*cmd*"
      "*scratch*")
@@ -1071,7 +1151,15 @@ Try the repeated popping up to 10 times."
   (advice-add 'magit-commit-diff :after (lambda ()
                                           "Disable magit-commit-show-diff."
                                           (setq magit-commit-show-diff nil)))
-  (global-git-commit-mode t)
+
+  ;; https://github.com/magit/magit/issues/4293#issuecomment-762458074 TLDR:
+  ;; Don't autoload the whole `global-git-commit-mode` - wait until it is really
+  ;; needed.
+  (setq-default global-git-commit-mode nil)
+
+  (when (boundp 'git-commit-filename-regexp)
+    (add-to-list 'auto-mode-alist
+                 (cons git-commit-filename-regexp #'git-commit-setup)))
 
   ;; (require 'gh)
   ;; (setq-default
@@ -1131,8 +1219,8 @@ Try the repeated popping up to 10 times."
   (require 'key-chord)
   (key-chord-mode 1)
   (key-chord-define evil-insert-state-map "jk" 'jazen/esc-and-save)
-  (key-chord-define evil-insert-state-map "jj" 'jazen/esc-and-jump)
-  (key-chord-define evil-normal-state-map "jj" 'evil-avy-goto-word-or-subword-1)
+  ;; (key-chord-define evil-insert-state-map "jj" 'jazen/esc-and-jump)
+  ;; (key-chord-define evil-normal-state-map "jj" 'evil-avy-goto-word-or-subword-1)
   ;; (key-chord-define evil-normal-state-map "jj" 'evil-avy-goto-char-2)
 
   (evil-global-set-keys
@@ -1364,7 +1452,7 @@ Try the repeated popping up to 10 times."
     (kbd "SPC n w") 'fancy-widen)
 
   (add-hook 'markdown-mode-hook
-            '(lambda ()
+            #'(lambda ()
                (auto-complete-mode t)
                (local-unset-key [tab])
                (setq-local yas-fallback-behavior '(apply auto-complete))))
@@ -1377,6 +1465,33 @@ Try the repeated popping up to 10 times."
     (setq-default evil-surround-pairs-alist (push '(?l "<" . ">") evil-surround-pairs-alist))
     (setq-default evil-surround-pairs-alist (push '(?ø "'" . "'") evil-surround-pairs-alist))
     (setq-default evil-surround-pairs-alist (push '(?æ "\"" . "\"") evil-surround-pairs-alist)))
+
+
+
+                                        ; Load copilot.el, modify this path to your local path.
+  (load-file "~/git/copilot.el/copilot.el")
+
+                                        ; complete by copilot first, then company-mode
+  (defun my-tab ()
+    (interactive)
+    (or (copilot-accept-completion)
+        (company-indent-or-complete-common nil)))
+
+                                        ; modify company-mode behaviors
+  (with-eval-after-load 'company
+                                        ; disable inline previews
+    (delq 'company-preview-if-just-one-frontend company-frontends)
+                                        ; enable tab completion
+    (define-key company-mode-map (kbd "<tab>") 'my-tab)
+    (define-key company-mode-map (kbd "TAB") 'my-tab)
+    (define-key company-active-map (kbd "<tab>") 'my-tab)
+    (define-key company-active-map (kbd "TAB") 'my-tab))
+
+                                        ; provide completion when typing
+  (add-hook 'post-command-hook (lambda ()
+                                 (copilot-clear-overlay)
+                                 (when (evil-insert-state-p)
+                                   (copilot-complete))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
